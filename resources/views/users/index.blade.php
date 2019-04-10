@@ -9,6 +9,8 @@
         <th>Nombre</th>
         <th>Email</th>
         <th>Role</th>
+        <th>Notas</th>
+        <th>Etiquetas</th>
         <th>Acciones</th>
     </tr>
     </thead>
@@ -23,6 +25,8 @@
                 @foreach($user->roles as $role)
                 @endforeach
             </td>
+            <td>{{ $user->note === null ? 'No tiene notas' : $user->note->body  }}</td>
+            <td>{{ $user->tags->count() ? $user->tags->pluck('name')->implode(', ') : '-' }}</td>
             <td>
                 <a class="btn btn-info btn-sm" href="{{ route('usuarios.edit', $user->id) }}">Editar</a>
                 <form style="display: inline" method="POST" action="{{ route('usuarios.destroy', $user->id) }}">

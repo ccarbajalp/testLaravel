@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\CreateUserRequest;
@@ -25,7 +24,7 @@ class UsersControllers extends Controller
      */
     public function index()
     {
-        $users = \App\User::all();
+        $users = User::with(['messages','note','tags','roles'])->get();
 
         return view('users.index', compact('users'));
     }

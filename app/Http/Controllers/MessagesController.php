@@ -7,6 +7,7 @@ use DB;
 use Carbon\Carbon;
 use App\Message;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class MessagesController extends Controller
 {
@@ -23,7 +24,7 @@ class MessagesController extends Controller
     public function index()
     {
         //$messages= DB::table('messages')->get();
-        $messages = Message::all();
+        $messages = Message::with(['user','note','tags'])->get();
         //return $messages;
         return view('messages.index', compact('messages'));
     }
@@ -68,17 +69,20 @@ class MessagesController extends Controller
         ]);*/
         //Model::unguard();
         //dd($request->all());
-        $this->validate($request, [
+        /*$this->validate($request, [
             'nombre' => 'required',
             'email' => 'required',
             'mensaje' => 'required',
-        ]);
+        ]);*/
 
         $message = Message::create($request->all());
 
         if(auth()->check()){
             auth()->user()->messages()->save($message);
         }
+        Mail::send('emails.contact',['msg'=>$message], function($m) use ($message){
+            $m->to($message->email, $message->nombre)->subject('Tu mensaje fue recibido');
+        });
 
         return redirect()->route('mensajes.create')->with('info','Hemos recibido tu mensaje');
     }
