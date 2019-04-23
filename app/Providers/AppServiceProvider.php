@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(\App\Repositories\MessagesInterface::class, \App\Repositories\Messages::class);
     }
 }

@@ -49,7 +49,7 @@ class UsersControllers extends Controller
     public function store(CreateUserRequest $request)
     {
         $user = User::create($request->all());
-        $user->roles()->attach($request->roles);
+        $user->roles()->attach($request->roles,['info'=>'Que show']);
         return redirect()->route('usuarios.index');
     }
 

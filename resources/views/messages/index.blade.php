@@ -13,36 +13,15 @@
             </tr>
         </thead>
         <tbody>
-
             @foreach($messages as $message)
                 <tr>
-                    @if($message->user_id)
-                        <td>
-                            <a href="{{ route('usuarios.show', $message->user_id)  }}">
-                                {{$message->user->name}}
-                            </a>
+                   <td> {{ $message->present()->userName() }}</td>
+                    <td> {!! $message->present()->userEmail() !!} </td>
 
-                        </td>
-                        <td>{{$message->user->email}}</td>
-                    @else
-                        <td>
-                            {{$message->nombre}}
-                        </td>
-                        <td>{{$message->email}}</td>
-                    @endif
-
+                    <td> {!! $message->present()->link() !!} </td>
+                    <td> {{ $message->present()->notes() }} </td>
+                    <td> {{ $message->present()->tags() }} </td>
                     <td>
-                        <a href="{{ route('mensajes.show', $message->id) }}">
-                        {{$message->mensaje}}</a>
-                    </td>
-                    <td>
-                        {{$message->note->body}}
-                    </td>
-                    <td>
-                        {{$message->tags->pluck('name')->implode(' - ')}}
-                    </td>
-                    <td>
-
                         <a class="btn btn-info btn-sm" href="{{ route('mensajes.edit', $message->id) }}">Editar</a>
                         <form style="display: inline" method="POST" action="{{ route('mensajes.destroy', $message->id) }}">
                             {!! csrf_field() !!}
@@ -52,6 +31,15 @@
                     </td>
                 </tr>
             @endforeach
+            {!! $messages->fragment('hash')->appends(request()->query())->links('pagination::bootstrap-4') !!}
+            @php
+
+                    Session::put('Currentpage',request()->query('page'));
+
+
+            @endphp
         </tbody>
     </table>
 @stop
+
+

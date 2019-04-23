@@ -22,6 +22,14 @@
             <td>{{$user->email}}</td>
             <td>
                 {{ $user->roles->pluck('display_name')->implode(', ') }}
+                <br>
+
+                @foreach ($user->roles as $widget)
+                    {{'Info: '}}
+                    {{$widget->pivot->info}}
+                    @break
+                @endforeach
+
                 @foreach($user->roles as $role)
                 @endforeach
             </td>

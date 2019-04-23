@@ -42,7 +42,7 @@ class User extends Authenticatable
     ];
 
     public function roles(){
-        return $this->belongsToMany(Role::class,'assigned_roles');
+        return $this->belongsToMany(Role::class,'assigned_roles')->withPivot('info');
     }
 
     public function hasRoles(array $roles){

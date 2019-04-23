@@ -38,9 +38,9 @@ App\User::create([
     return \App\Role::with('user')->get();
 });*/
 
-/*DB::listen(function($query){
-   echo "<pre>{$query->sql}</pre>";
-});*/
+DB::listen(function($query){
+   //echo "<pre>{$query->sql}</pre>";
+});
 
 Route::get('/', ['uses' => 'PagesController@home'])->name('home')/*->middleware('example')*/;
 //Route::get('contactame', ['uses'=> 'PagesController@contact'])->name('contactos');

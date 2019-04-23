@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMessagesTable extends Migration
+class AlterAssignedRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre')->nullable();
-            $table->string('email')->nullable();
-            $table->text('mensaje');
-            $table->timestamps();
+        Schema::table('assigned_roles', function (Blueprint $table) {
+            $table->string('info')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::table('assigned_roles', function (Blueprint $table) {
+            $table->dropColumn('info');
+        });
     }
 }
